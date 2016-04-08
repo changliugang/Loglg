@@ -45,6 +45,15 @@ public class Loglg {
      * @return
      */
     private static String[] wrapContent(String tagString,Object... objects){
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        StackTraceElement stackTraceElement = stackTrace[STACK_TRACE_INDEX];
+        String className = stackTraceElement.getFileName();
+        // 强哥这么写麻烦了吧
+//        String className = stackTraceElement.getClassName();
+//        String[] classNameInfo = className.split("\\.");
+//        if (classNameInfo.length > 0) {
+//            className = classNameInfo[classNameInfo.length - 1] + SUFFIX;
+//        }
 
         return null;
     }
