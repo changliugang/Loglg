@@ -1,5 +1,10 @@
 package com.changlg.cn.loglg;
 
+import android.content.res.ObbInfo;
+import android.text.TextUtils;
+
+import java.io.File;
+
 /**
  * 多功能Log
  * Created by chang on 2016/4/7.
@@ -34,20 +39,27 @@ public class Loglg {
         IS_SHOW_LOG = isShowLog;
     }
 
-    private static void printLog(){
+    private static void printLog(String tagString, File targetDirectory, String fileName, Object objectMsg) {
+        if (!IS_SHOW_LOG)
+            return;
+        String[] contents = wrapContent(tagString,objectMsg);
+        String tag = contents[0];
+        String msg = contents[1];
+        String headString = contents[2];
 
     }
 
     /**
      * 封装log内容
+     *
      * @param tagString log标签
-     * @param objects
-     * @return
+     * @param objects log内容
+     * @return 包含log完整内容的字符串数组
      */
-    private static String[] wrapContent(String tagString,Object... objects){
+    private static String[] wrapContent(String tagString, Object... objects) {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         StackTraceElement stackTraceElement = stackTrace[STACK_TRACE_INDEX];
-        String className = stackTraceElement.getFileName();
+
         // 强哥这么写麻烦了吧
 //        String className = stackTraceElement.getClassName();
 //        String[] classNameInfo = className.split("\\.");
@@ -55,7 +67,47 @@ public class Loglg {
 //            className = classNameInfo[classNameInfo.length - 1] + SUFFIX;
 //        }
 
-        return null;
+        String className = stackTraceElement.getFileName();
+        int lineNumber = stackTraceElement.getLineNumber();
+        if (lineNumber < 0)
+            lineNumber = 0;
+        String methodName = stackTraceElement.getMethodName();
+        // 将函数名首字母大写，并将其后内容拼接为完整函数名
+        String methodNameNovel = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
+        // tag没有指定的话就给个函数名作为tag
+        String tag = tagString == null ? methodName : tagString;
+        if (TextUtils.isEmpty(tag))
+            tag = TAG_DEFAULT;
+
+        String msg = objects == null ? NULL_TIPS : getObjectsString(objects);
+        String headString = "[(" + className + ":" + lineNumber + ")#" + methodNameNovel + "]";
+
+        return new String[]{tag, msg, headString};
+    }
+
+    /**
+     * 获取log内容字符串
+     * @param objects log内容对象组
+     * @return log内容字符串
+     */
+    private static String getObjectsString(Object... objects) {
+        if (objects.length > 1) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(LINE_SEPARATOR);
+            for (int i = 0; i < objects.length; i++) {
+                Object object = objects[i];
+                if (object == null)
+                    sb.append(PARAM).append("[").append(i).append("]").append(NULL)
+                            .append(LINE_SEPARATOR);
+                else
+                    sb.append(PARAM).append("[").append(i).append("]").append(object.toString())
+                            .append(LINE_SEPARATOR);
+            }
+            return sb.toString();
+        }else {
+            Object object = objects[0];
+            return object==null?NULL:object.toString();
+        }
     }
 
 }
