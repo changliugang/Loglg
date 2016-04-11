@@ -1,6 +1,5 @@
 package com.changlg.cn.loglg;
 
-import android.content.res.ObbInfo;
 import android.text.TextUtils;
 
 import java.io.File;
@@ -39,21 +38,48 @@ public class Loglg {
         IS_SHOW_LOG = isShowLog;
     }
 
-    private static void printLog(String tagString, File targetDirectory, String fileName, Object objectMsg) {
+    private static void printLog(int type, String tagString, Object... objects) {
         if (!IS_SHOW_LOG)
             return;
-        String[] contents = wrapContent(tagString,objectMsg);
+        String[] contents = wrapContent(tagString, objects);
         String tag = contents[0];
         String msg = contents[1];
         String headString = contents[2];
 
+        switch (type) {
+            case V:
+            case D:
+            case I:
+            case W:
+            case E:
+            case A:
+                BaseLog.printDefault(type, tag, headString + msg);
+                break;
+            case JSON:
+
+                break;
+            case XML:
+
+                break;
+        }
+
+    }
+
+    private static void printLog(String tagString, File targetDirectory, String fileName, Object objectMsg) {
+        if (!IS_SHOW_LOG)
+            return;
+        String[] contents = wrapContent(tagString, objectMsg);
+        String tag = contents[0];
+        String msg = contents[1];
+        String headString = contents[2];
+        FileLog.printFile(tag, targetDirectory, fileName, headString, msg);
     }
 
     /**
      * 封装log内容
      *
      * @param tagString log标签
-     * @param objects log内容
+     * @param objects   log内容
      * @return 包含log完整内容的字符串数组
      */
     private static String[] wrapContent(String tagString, Object... objects) {
@@ -87,6 +113,7 @@ public class Loglg {
 
     /**
      * 获取log内容字符串
+     *
      * @param objects log内容对象组
      * @return log内容字符串
      */
@@ -104,9 +131,9 @@ public class Loglg {
                             .append(LINE_SEPARATOR);
             }
             return sb.toString();
-        }else {
+        } else {
             Object object = objects[0];
-            return object==null?NULL:object.toString();
+            return object == null ? NULL : object.toString();
         }
     }
 
