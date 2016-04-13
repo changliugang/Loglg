@@ -38,6 +38,115 @@ public class Loglg {
         IS_SHOW_LOG = isShowLog;
     }
 
+    public static void v() {
+        printLog(V, null, DEFAULT_MESSAGE);
+    }
+
+    public static void v(Object msg) {
+        printLog(V, null, msg);
+    }
+
+    public static void v(String tag, Object... objects) {
+        printLog(V, tag, objects);
+    }
+
+
+    public static void d() {
+        printLog(D, null, DEFAULT_MESSAGE);
+    }
+
+    public static void d(Object msg) {
+        printLog(D, null, msg);
+    }
+
+    public static void d(String tag, Object... objects) {
+        printLog(D, tag, objects);
+    }
+
+    public static void i() {
+        printLog(I, null, DEFAULT_MESSAGE);
+    }
+
+    public static void i(Object msg) {
+        printLog(I, null, msg);
+    }
+
+    public static void i(String tag, Object... objects) {
+        printLog(I, tag, objects);
+    }
+
+    public static void w() {
+        printLog(W, null, DEFAULT_MESSAGE);
+    }
+
+    public static void w(Object msg) {
+        printLog(W, null, msg);
+    }
+
+    public static void w(String tag, Object... objects) {
+        printLog(W, tag, objects);
+    }
+
+    public static void e() {
+        printLog(E, null, DEFAULT_MESSAGE);
+    }
+
+    public static void e(Object msg) {
+        printLog(E, null, msg);
+    }
+
+    public static void e(String tag, Object... objects) {
+        printLog(E, tag, objects);
+    }
+
+    public static void a() {
+        printLog(A, null, DEFAULT_MESSAGE);
+    }
+
+    public static void a(Object msg) {
+        printLog(A, null, msg);
+    }
+
+    public static void a(String tag, Object... objects) {
+        printLog(A, tag, objects);
+    }
+
+    public static void json() {
+        printLog(JSON, null, DEFAULT_MESSAGE);
+    }
+
+    public static void json(Object msg) {
+        printLog(JSON, null, msg);
+    }
+
+    public static void json(String tag, Object... objects) {
+        printLog(JSON, tag, objects);
+    }
+
+    public static void xml() {
+        printLog(XML, null, DEFAULT_MESSAGE);
+    }
+
+    public static void xml(Object msg) {
+        printLog(XML, null, msg);
+    }
+
+    public static void xml(String tag, Object... objects) {
+        printLog(XML, tag, objects);
+    }
+
+    public static void file(File targetDirectory, Object msg) {
+        printFile(null, targetDirectory, null, msg);
+    }
+
+    public static void file(String tag, File targetDirectory, Object msg) {
+        printFile(tag, targetDirectory, null, msg);
+    }
+
+    public static void file(String tag, File targetDirectory, String fileName, Object msg) {
+        printFile(tag, targetDirectory, fileName, msg);
+    }
+
     private static void printLog(int type, String tagString, Object... objects) {
         if (!IS_SHOW_LOG)
             return;
@@ -56,16 +165,16 @@ public class Loglg {
                 BaseLog.printDefault(type, tag, headString + msg);
                 break;
             case JSON:
-
+                JsonLog.printJson(tag, msg, headString);
                 break;
             case XML:
-
+                XmlLog.printXml(tag, headString, msg);
                 break;
         }
 
     }
 
-    private static void printLog(String tagString, File targetDirectory, String fileName, Object objectMsg) {
+    private static void printFile(String tagString, File targetDirectory, String fileName, Object objectMsg) {
         if (!IS_SHOW_LOG)
             return;
         String[] contents = wrapContent(tagString, objectMsg);
@@ -106,6 +215,7 @@ public class Loglg {
             tag = TAG_DEFAULT;
 
         String msg = objects == null ? NULL_TIPS : getObjectsString(objects);
+        // 在窗口可点击跳转到指定代码行，是“（）”起了作用
         String headString = "[(" + className + ":" + lineNumber + ")#" + methodNameNovel + "]";
 
         return new String[]{tag, msg, headString};

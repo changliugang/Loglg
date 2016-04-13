@@ -12,10 +12,19 @@ android {
         versionName "1.0"
     }
     buildTypes {
-        release {
+        debug {
+            buildConfigField "boolean", "LOG_SWITCH", "true"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        release {
+            buildConfigField "boolean", "LOG_SWITCH", "false"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+
     }
 }
 
@@ -23,5 +32,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.facebook.fresco:fresco:0.9.0+'
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'cz.msebera.android:httpclient:4.3.6'
+    compile 'com.jakewharton:butterknife:7.0.1'
 }

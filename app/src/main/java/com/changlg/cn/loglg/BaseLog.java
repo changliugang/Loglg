@@ -8,20 +8,26 @@ import android.util.Log;
  */
 public class BaseLog {
 
-    public static void printDefault(int type, String tag, String msg) {
-        int index = 0;
-        int maxLength = 4000;
-        int countOfSub = msg.length() / maxLength;
+    /**
+     * Android's max limit for a log entry is ~4076 bytes,
+     * so 4000 bytes is used as chunk size since default charset
+     * is UTF-8
+     */
+    private static final int CHUNK_SIZE = 4000;
 
-        if (countOfSub > 0) {
-            for (int i = 0; i < countOfSub; i++) {
-                String sub = msg.substring(index, maxLength);
-                printSub(type, tag, sub);
-                index += maxLength;
-            }
-            printSub(type,tag,msg.substring(index,msg.length()));
-        }else {
+    public static void printDefault(int type, String tag, String msg) {
+
+        byte[] bytes = msg.getBytes();
+        int length = bytes.length;
+        if (length <= CHUNK_SIZE) {
             printSub(type, tag, msg);
+            return;
+        }
+        // 字数过大的log一次输出不完，就以CHUNK_SIZE分组，多次log输出
+        for (int i = 0; i < length; i += CHUNK_SIZE) {
+            int count = Math.min(length - i, CHUNK_SIZE);
+            //create a new String with system's default charset (which is UTF-8 for Android)
+            printSub(type, tag, new String(bytes, i, count));
         }
     }
 
