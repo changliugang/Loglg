@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         JSON = getString(R.string.json);
         JSON_LONG = getString(R.string.json_long);
         STRING_LONG = getString(R.string.string_long);
-//        STRING_LONG = getString(R.string.long_str_content);
     }
 
 

@@ -17,7 +17,6 @@ public class Loglg {
     public static final String PARAM = "Param";
     public static final String NULL = "null";
     public static final String TAG_DEFAULT = "Loglg";// 默认Tag
-    public static final String SUFFIX = ".java";// 后缀
 
     public static final int JSON_INDENT = 4;// Json格式缩进
 
@@ -194,13 +193,6 @@ public class Loglg {
     private static String[] wrapContent(String tagString, Object... objects) {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         StackTraceElement stackTraceElement = stackTrace[STACK_TRACE_INDEX];
-
-        // 强哥这么写麻烦了吧
-//        String className = stackTraceElement.getClassName();
-//        String[] classNameInfo = className.split("\\.");
-//        if (classNameInfo.length > 0) {
-//            className = classNameInfo[classNameInfo.length - 1] + SUFFIX;
-//        }
 
         String className = stackTraceElement.getFileName();
         int lineNumber = stackTraceElement.getLineNumber();

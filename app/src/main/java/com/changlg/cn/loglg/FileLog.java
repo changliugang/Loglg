@@ -15,17 +15,17 @@ import java.util.Random;
  */
 public class FileLog {
 
-    public static void printFile(String tag, File targetDirectory, String fileName
+    public static void printFile(String tag, File targetDirectory, String fileNameWithSuffix
             , String headString, String msg) {
-        fileName = fileName == null ? getFileName() : fileName;
-        if (save(targetDirectory, fileName, msg))
-            Log.d(tag, headString + " save log success ! location is -->" + targetDirectory + File.separator + fileName);
+        fileNameWithSuffix = fileNameWithSuffix == null ? getfileNameWithSuffix() : fileNameWithSuffix;
+        if (save(targetDirectory, fileNameWithSuffix, msg))
+            Log.d(tag, headString + " save log success ! location is -->" + targetDirectory + File.separator + fileNameWithSuffix);
         else
             Log.e(tag, headString + " save log fail !");
     }
 
-    private static boolean save(File dic, String fileName, String msg) {
-        File file = new File(dic, fileName);
+    private static boolean save(File dic, String fileNameWithSuffix, String msg) {
+        File file = new File(dic, fileNameWithSuffix);
 
         try {
             OutputStream outputStream = new FileOutputStream(file);
@@ -40,7 +40,7 @@ public class FileLog {
         return true;
     }
 
-    private static String getFileName() {
+    private static String getfileNameWithSuffix() {
         Random random = new Random();
         return "Loglg_" + Long.toString(System.currentTimeMillis() + random.nextInt(10000))
                 .substring(4) + ".txt";
