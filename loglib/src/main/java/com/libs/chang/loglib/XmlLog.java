@@ -1,4 +1,4 @@
-package com.changlg.cn.loglg;
+package com.libs.chang.loglib;
 
 import android.util.Log;
 

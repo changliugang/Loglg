@@ -1,4 +1,4 @@
-package com.changlg.cn.loglg;
+package com.libs.chang.loglib;
 
 import android.util.Log;
 
@@ -29,10 +29,10 @@ public class JsonLog {
             message = msg;
         }
         Util.printLine(tag, true);
-        message = headString + Loglg.LINE_SEPARATOR +message;
-        String[] lines = message.split( Loglg.LINE_SEPARATOR);
-        for (String line:lines) {
-            Log.d(tag, "|| "+line);
+        message = headString + Loglg.LINE_SEPARATOR + message;
+        String[] lines = message.split(Loglg.LINE_SEPARATOR);
+        for (String line : lines) {
+            Log.d(tag, "|| " + line);
         }
         Util.printLine(tag, false);
     }

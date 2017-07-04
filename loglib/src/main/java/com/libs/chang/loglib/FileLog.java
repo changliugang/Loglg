@@ -1,12 +1,14 @@
-package com.changlg.cn.loglg;
+package com.libs.chang.loglib;
 
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 /**
@@ -17,7 +19,7 @@ public class FileLog {
 
     public static void printFile(String tag, File targetDirectory, String fileNameWithSuffix
             , String headString, String msg) {
-        fileNameWithSuffix = fileNameWithSuffix == null ? getfileNameWithSuffix() : fileNameWithSuffix;
+        fileNameWithSuffix = fileNameWithSuffix == null ? getFileNameWithSuffix() : fileNameWithSuffix;
         if (save(targetDirectory, fileNameWithSuffix, msg))
             Log.d(tag, headString + " save log success ! location is -->" + targetDirectory + File.separator + fileNameWithSuffix);
         else
@@ -33,16 +35,26 @@ public class FileLog {
             outputStreamWriter.write(msg);
             outputStreamWriter.flush();
             outputStream.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-        return true;
+
     }
 
-    private static String getfileNameWithSuffix() {
+    private static String getFileNameWithSuffix() {
         Random random = new Random();
         return "Loglg_" + Long.toString(System.currentTimeMillis() + random.nextInt(10000))
-                .substring(4) + ".txt";
+                .substring(4) + ".log";
     }
 }

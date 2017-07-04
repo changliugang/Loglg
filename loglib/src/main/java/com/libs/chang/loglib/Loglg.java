@@ -1,5 +1,6 @@
-package com.changlg.cn.loglg;
+package com.libs.chang.loglib;
 
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.io.File;
@@ -10,13 +11,14 @@ import java.io.File;
  */
 public class Loglg {
 
-    public static final String DEFAULT_MESSAGE = "execute";
+    public static String DEFAULT_MESSAGE = "default_message";
     // 系统行分隔符（windows下“\n”，UNIX下“/n”）
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
     public static final String NULL_TIPS = "Log with null object";// 空提示
     public static final String PARAM = "Param";
     public static final String NULL = "null";
-    public static final String TAG_DEFAULT = "Loglg";// 默认Tag
+    public static String TAG_DEFAULT = "Loglg";// 默认Tag
+    private static final String SUFFIX = ".java";
 
     public static final int JSON_INDENT = 4;// Json格式缩进
 
@@ -30,11 +32,30 @@ public class Loglg {
     public static final int JSON = 0x7;
     public static final int XML = 0x8;
 
-    private static boolean IS_SHOW_LOG = true;
+    private static boolean mIsShowLog = true;// 是否显示log。毕竟正式包不能输出log，需要一个全局控制
+    private static boolean mHasGlobalTag = true;// 是否定义了全局的tag
+    private static String mGlobalTag;// 自定义的全局的tag
     private static final int STACK_TRACE_INDEX = 5;// 堆栈跟踪指数
 
+    /**
+     * 设置log信息是否显示
+     *
+     * @param isShowLog log信息是否显示
+     */
     public static void init(boolean isShowLog) {
-        IS_SHOW_LOG = isShowLog;
+        mIsShowLog = isShowLog;
+    }
+
+    /**
+     * 设置log信息是否显示，并设置全局日志tag
+     *
+     * @param isShowLog log信息是否显示
+     * @param tag       全局日志tag
+     */
+    public static void init(boolean isShowLog, @Nullable String tag) {
+        mIsShowLog = isShowLog;
+        mGlobalTag = tag;
+        mHasGlobalTag = TextUtils.isEmpty(tag);
     }
 
     public static void v() {
@@ -48,7 +69,6 @@ public class Loglg {
     public static void v(String tag, Object... objects) {
         printLog(V, tag, objects);
     }
-
 
     public static void d() {
         printLog(D, null, DEFAULT_MESSAGE);
@@ -146,22 +166,29 @@ public class Loglg {
         printFile(tag, targetDirectory, fileName, msg);
     }
 
-    private static void printLog(int type, String tagString, Object... objects) {
-        if (!IS_SHOW_LOG)
+    /**
+     * 打印日志
+     *
+     * @param logLevel  日志等级
+     * @param tagString 日志tag
+     * @param objects   这里可以定义多个Log的输出信息
+     */
+    private static void printLog(int logLevel, String tagString, Object... objects) {
+        if (!mIsShowLog)
             return;
         String[] contents = wrapContent(tagString, objects);
         String tag = contents[0];
         String msg = contents[1];
         String headString = contents[2];
 
-        switch (type) {
+        switch (logLevel) {
             case V:
             case D:
             case I:
             case W:
             case E:
             case A:
-                BaseLog.printDefault(type, tag, headString + msg);
+                BaseLog.printLogDependingOnSpan(logLevel, tag, headString + msg);
                 break;
             case JSON:
                 JsonLog.printJson(tag, msg, headString);
@@ -173,8 +200,16 @@ public class Loglg {
 
     }
 
+    /**
+     * 打印文件
+     *
+     * @param tagString       日志的tag
+     * @param targetDirectory 目标文件
+     * @param fileName        文件名
+     * @param objectMsg       日志内容
+     */
     private static void printFile(String tagString, File targetDirectory, String fileName, Object objectMsg) {
-        if (!IS_SHOW_LOG)
+        if (!mIsShowLog)
             return;
         String[] contents = wrapContent(tagString, objectMsg);
         String tag = contents[0];
@@ -191,24 +226,34 @@ public class Loglg {
      * @return 包含log完整内容的字符串数组
      */
     private static String[] wrapContent(String tagString, Object... objects) {
+
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         StackTraceElement stackTraceElement = stackTrace[STACK_TRACE_INDEX];
-
-        String className = stackTraceElement.getFileName();
+        String className = stackTraceElement.getClassName();// 类全名
+        // 分割简化类名
+        String[] split = className.split("\\.");
+        if (split.length > 0) {
+            className = split[split.length - 1] + SUFFIX;
+        }
+        if (className.contains("$")) {
+            className = className.split("\\$")[0] + SUFFIX;
+        }
+        // 日志所在方法
+        String methodName = stackTraceElement.getMethodName();
         int lineNumber = stackTraceElement.getLineNumber();
         if (lineNumber < 0)
             lineNumber = 0;
-        String methodName = stackTraceElement.getMethodName();
-        // 将函数名首字母大写，并将其后内容拼接为完整函数名
-        String methodNameNovel = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
-        // tag没有指定的话就给个函数名作为tag
-        String tag = tagString == null ? methodName : tagString;
-        if (TextUtils.isEmpty(tag))
+        // tag没有指定的话就给个类名作为tag
+        String tag = tagString == null ? className : tagString;
+        if (mHasGlobalTag && TextUtils.isEmpty(tag)) {
             tag = TAG_DEFAULT;
+        } else if (!mHasGlobalTag) {
+            tag = mGlobalTag;
+        }
 
         String msg = objects == null ? NULL_TIPS : getObjectsString(objects);
         // 在窗口可点击跳转到指定代码行，是“（）”起了作用
-        String headString = "[(" + className + ":" + lineNumber + ")#" + methodNameNovel + "]";
+        String headString = "[(" + className + ":" + lineNumber + ")#" + methodName + "]";
 
         return new String[]{tag, msg, headString};
     }

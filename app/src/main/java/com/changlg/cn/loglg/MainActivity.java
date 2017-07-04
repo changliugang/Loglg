@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.libs.chang.loglib.Loglg;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
@@ -18,8 +19,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final String LOG_MSG = "伙计们 just for fun!";
     private static final String TAG = "Loglg";
-    private static final String URL_XML = "https://raw.githubusercontent.com/ZhaoKaiQiang/KLog/master/app/src/main/AndroidManifest.xml";
-    private static String XML = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><!--  Copyright w3school.com.cn --><note><to>George</to><from>John</from><heading>Reminder</heading><body>Don't forget the meeting!</body></note>";
+    private static final String URL_XML = "https://raw.githubusercontent.com/changliugang/MulStateLayout/master/app/src/main/AndroidManifest.xml";
+    private static String XML =
+            "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+                    "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n" +
+                    "     package=\"com.changlg.cn.loglg\">\n" +
+                    "\n" +
+                    "     <uses-permission android:name=\"android.permission.INTERNET\"/>\n" +
+                    "     <uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />\n" +
+                    "     <application\n" +
+                    "     android:allowBackup=\"true\"\n" +
+                    "     android:name=\".AppApplication\"\n" +
+                    "     android:icon=\"@mipmap/ic_launcher\"\n" +
+                    "     android:label=\"@string/app_name\"\n" +
+                    "     android:supportsRtl=\"true\"\n" +
+                    "     android:theme=\"@style/AppTheme\">\n" +
+                    "     <activity android:name=\".MainActivity\">\n" +
+                    "     <intent-filter>\n" +
+                    "     <action android:name=\"android.intent.action.MAIN\" />\n" +
+                    "\n" +
+                    "     <category android:name=\"android.intent.category.LAUNCHER\" />\n" +
+                    "     </intent-filter>\n" +
+                    "     </activity>\n" +
+                    "     </application>\n" +
+                    "\n" +
+                    "     </manifest>";
     private static String JSON;
     private static String JSON_LONG;
     private static String STRING_LONG;
