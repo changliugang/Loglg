@@ -14,6 +14,6 @@ public class AppApplication extends Application {
     public void onCreate() {
         super.onCreate();
        // 这里配置全局Log的显示
-        Loglg.init(BuildConfig.DEBUG);
+        Loglg.init(BuildConfig.DEBUG,"changlg");
     }
 }

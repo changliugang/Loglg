@@ -29,10 +29,12 @@ public class BaseLog {
 
         if (count > 0) {
             for (int i = 0; i < count; i++) {
-                msg.substring(index, index + SPAN_SIZE);
-                printLog(logLevel, tag, msg);
+                String sub =  msg.substring(index, index + SPAN_SIZE);
+                printLog(logLevel, tag, sub);
                 index += SPAN_SIZE;
             }
+            Log.d("chang", msg.substring(2999,4000));
+            printLog(logLevel, tag, msg.substring(index, length));
         } else {
             printLog(logLevel, tag, msg);
         }

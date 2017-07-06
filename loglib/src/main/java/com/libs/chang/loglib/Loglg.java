@@ -3,8 +3,6 @@ package com.libs.chang.loglib;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import java.io.File;
-
 /**
  * 多功能Log
  * Created by chang on 2016/4/7.
@@ -154,18 +152,6 @@ public class Loglg {
         printLog(XML, tag, objects);
     }
 
-    public static void file(File targetDirectory, Object msg) {
-        printFile(null, targetDirectory, null, msg);
-    }
-
-    public static void file(String tag, File targetDirectory, Object msg) {
-        printFile(tag, targetDirectory, null, msg);
-    }
-
-    public static void file(String tag, File targetDirectory, String fileName, Object msg) {
-        printFile(tag, targetDirectory, fileName, msg);
-    }
-
     /**
      * 打印日志
      *
@@ -198,24 +184,6 @@ public class Loglg {
                 break;
         }
 
-    }
-
-    /**
-     * 打印文件
-     *
-     * @param tagString       日志的tag
-     * @param targetDirectory 目标文件
-     * @param fileName        文件名
-     * @param objectMsg       日志内容
-     */
-    private static void printFile(String tagString, File targetDirectory, String fileName, Object objectMsg) {
-        if (!mIsShowLog)
-            return;
-        String[] contents = wrapContent(tagString, objectMsg);
-        String tag = contents[0];
-        String msg = contents[1];
-        String headString = contents[2];
-        FileLog.printFile(tag, targetDirectory, fileName, headString, msg);
     }
 
     /**

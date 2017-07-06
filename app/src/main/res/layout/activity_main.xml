@@ -40,12 +40,6 @@
             android:text="带tag log" />
 
         <Button
-            android:id="@+id/long_string_log_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="大量文字log" />
-
-        <Button
             android:id="@+id/params_log_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,23 +51,12 @@
             android:layout_height="wrap_content"
             android:text="jsonlog" />
 
-        <Button
-            android:id="@+id/long_json_log_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="大量文字的Jsonlog" />
 
         <Button
             android:id="@+id/json_with_tag_log_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="带tag的Json log" />
-
-        <Button
-            android:id="@+id/file_log_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="file log" />
 
         <Button
             android:id="@+id/xml_log_btn"
