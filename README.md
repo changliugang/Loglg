@@ -14,8 +14,25 @@
 4.日志输出信息中展示其代码位置，点击跳转到日志代码
 
 ![](https://github.com/changliugang/Loglg/raw/master/art/loglg.gif)  
-  
-## 初始化配置：
+
+## 使用
+
+1. 在项目跟目录下build.gradle中如下添加。
+```
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
+}
+```
+2. 在app下的build.gradle如下添加依赖。
+```
+dependencies {
+	       compile 'com.github.changliugang:Loglg:v1.0.1'
+}
+```
+3.初始化配置：
 ```
 Loglg.init(BuildConfig.DEBUG);
 ```
@@ -23,10 +40,10 @@ Loglg.init(BuildConfig.DEBUG);
 
 ![](https://github.com/changliugang/Loglg/raw/master/art/global_init.png)
 
-# 日志输出格式
+## 日志输出格式
 日志等级/日志tag:[(日志代码位置)#方法名]日志内容
 
-# 各种形式的Log输出（d为例）
+## 各种形式的Log输出（d为例）
 1.```Loglg.d();``` 无参调用，默认输出default_message
 
 ![](https://github.com/changliugang/Loglg/raw/master/art/no_arguments.png)
