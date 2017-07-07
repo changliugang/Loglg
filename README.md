@@ -8,12 +8,24 @@
 4.日志输出信息中展示其代码位置，点击跳转到日志代码
 
 ![](https://github.com/changliugang/Loglg/raw/master/art/loglg.gif)  
-  
-## 常用函数：
-函数名 | 描述
------------- | -------------
-OnQueryTextListener | 可以设置回调查询关键字和关键字变化
-showSearch | 打开搜索界面
-hideSearch | 关闭搜索界面
+  
+## 初始化配置：
+```
+Loglg.init(BuildConfig.DEBUG);
+```
+在Application中的onCreate()中初始化，可控制debug时输出日志release不输出日志，并可以配置全局日志tag。两个参数分别是，控制日志输出和自定义全局tag。默认tag为Loglg。
+![](https://github.com/changliugang/Loglg/raw/master/art/global_init.png)
+
+# 日志输出格式
+日志等级/日志tag:[(日志代码位置)#方法名]日志内容
+
+# 各种形式的Log输出（d为例）
+1.```Loglg.d();``` 无参调用，默认输出default_message
+![](https://github.com/changliugang/Loglg/raw/master/art/no_arguments.png)
+2.```Loglg.d(null);```使用系统的Log输出内容为空的话，会抛出空指针异常。而Loglg会输出null
+![](https://github.com/changliugang/Loglg/raw/master/art/no_arguments.png)
+
+
+
 
 
