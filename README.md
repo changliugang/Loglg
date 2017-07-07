@@ -72,4 +72,8 @@ Loglg.init(BuildConfig.DEBUG);
 
 ![](https://github.com/changliugang/Loglg/raw/master/art/Xml_format_log.png)
 
+##Thanks
 
+[凯哥][1]
+
+[1]:http://blog.csdn.net/zhaokaiqiang1992 "凯哥"
