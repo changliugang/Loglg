@@ -1,6 +1,9 @@
 # Loglg
 这是一个功能强大的Log工具.感谢ZhaoKaiQiang强神的源码
 
+[![](https://jitpack.io/v/changliugang/Loglg.svg)](https://jitpack.io/#changliugang/Loglg)
+[![API](https://img.shields.io/badge/API-18%2B-orange.svg?style=flat)](https://android-arsenal.com/api?level=14)
+
 ## 功能
 1.总控全局的日志输出开关
 
