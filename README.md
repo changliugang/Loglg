@@ -14,6 +14,7 @@
 Loglg.init(BuildConfig.DEBUG);
 ```
 在Application中的onCreate()中初始化，可控制debug时输出日志release不输出日志，并可以配置全局日志tag。两个参数分别是，控制日志输出和自定义全局tag。默认tag为Loglg。
+
 ![](https://github.com/changliugang/Loglg/raw/master/art/global_init.png)
 
 # 日志输出格式
@@ -21,11 +22,31 @@ Loglg.init(BuildConfig.DEBUG);
 
 # 各种形式的Log输出（d为例）
 1.```Loglg.d();``` 无参调用，默认输出default_message
+
 ![](https://github.com/changliugang/Loglg/raw/master/art/no_arguments.png)
+
 2.```Loglg.d(null);```使用系统的Log输出内容为空的话，会抛出空指针异常。而Loglg会输出null
-![](https://github.com/changliugang/Loglg/raw/master/art/no_arguments.png)
 
+![](https://github.com/changliugang/Loglg/raw/master/art/system_output_null.png)
 
+![](https://github.com/changliugang/Loglg/raw/master/art/system_output_null_exception.png)
 
+![](https://github.com/changliugang/Loglg/raw/master/art/loglg_output_null.png)
+
+3.Loglg.d(LOG_MSG);输出一般日志
+
+![](https://github.com/changliugang/Loglg/raw/master/art/common_log_output.png)
+
+4.Loglg.d(TAG, LOG_MSG, "param1", "param2", this); 多条参数日志一起打印
+
+![](https://github.com/changliugang/Loglg/raw/master/art/some_log_output_together.png)
+
+5.Loglg.json(JSON);  Json格式字符串日志格式化输出
+
+![](https://github.com/changliugang/Loglg/raw/master/art/Json_format_log.png)
+
+6.Loglg.xml(XML); Xml格式字符串日志格式化输出
+
+![](https://github.com/changliugang/Loglg/raw/master/art/Xml_format_log.png)
 
 
