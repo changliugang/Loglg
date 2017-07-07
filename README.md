@@ -3,8 +3,11 @@
 
 ## 功能
 1.总控全局的日志输出开关
+
 2.多种方法方便输出各种格式日志
+
 3.Json、Xml日志格式化
+
 4.日志输出信息中展示其代码位置，点击跳转到日志代码
 
 ![](https://github.com/changliugang/Loglg/raw/master/art/loglg.gif)  
@@ -35,7 +38,7 @@ Loglg.init(BuildConfig.DEBUG);
 
 3.Loglg.d(LOG_MSG);输出一般日志
 
-![](https://github.com/changliugang/Loglg/raw/master/art/common_log_output.png)
+![](https://github.com/changliugang/Loglg/blob/master/art/common%20_log_output.png)
 
 4.Loglg.d(TAG, LOG_MSG, "param1", "param2", this); 多条参数日志一起打印
 
